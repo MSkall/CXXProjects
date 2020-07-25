@@ -6,15 +6,15 @@ CFLAGG = -Wall -g
 
 all:
 
-linkedlist: linked_list_test.o
-	$(CC) $(CFLAGG) -o linkedlist linked_list_test.o
-linked_list_test.o: linked_list_test.cpp linked_list_template.h
-	$(CC) $(CFLAGG) -c linked_list_test.cpp
+linkedlist: test_linkedlist.o
+	$(CC) $(CFLAGG) -o linkedlist test_linkedlist.o
+test_linkedlist.o: test_linkedlist.cpp linked_list_template.h
+	$(CC) $(CFLAGG) -c test_linkedlist.cpp
 
-heap: testheap.o
-	$(CC) testheap.o -o heap
-testheap.o: testheap.cpp heap_template.h
-	$(CC) $(CXXFLAGS) $(CFLAGS) $(QMAKE_CXXFLAGS) testheap.cpp
+heap: test_heap.o
+	$(CC) test_heap.o -o heap
+test_heap.o: test_heap.cpp heap_template.h
+	$(CC) $(CXXFLAGS) $(CFLAGS) $(QMAKE_CXXFLAGS) test_heap.cpp
 
 clean:
 	rm -rf *o linkedlist heap
