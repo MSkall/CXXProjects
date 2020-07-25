@@ -2,6 +2,6 @@
 
 Download files in this folder.
 
-Call 'make'.
+Call `make`.
 
-Run the program with './main'
+Run the program with `./main`
