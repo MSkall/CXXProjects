@@ -2,8 +2,10 @@
 #include <iomanip>
 #include <vector>
 #include "heap_template.h"
+#include <limits>
+#include <fstream>
 
-double* continuousMedian(int arr[])
+std::vector<double> runningMedian(std::vector<int> arr)
 {
 	// max heap for lower half, min heap for upper half
 
@@ -11,35 +13,45 @@ double* continuousMedian(int arr[])
 	// take max of lower or min of higher (whichever is bigger)
 	// if heaps same size -> avg lower max and higher min
 
-	return 0;
+	MaxHeap<int> lowers; // max
+	MinHeap<int> highers; // min
+
+	std::vector<double> medians;
+
+	return medians;
 }
 
 int main()
 {
-	int arr[] = {1,2,3,4,5};
-	continuousMedian(arr);
+	std::ofstream fout(std::getenv("OUTPUT_PATH"));
 
-	std::cout << "Test Max and Min Heaps" << std::endl;
+    int a_count;
+    std::cin >> a_count;
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
-	MaxHeap<int> maxheap;
+    std::vector<int> a(a_count);
 
-	maxheap.Insert(1);
-	maxheap.Insert(2);
-	maxheap.Insert(3);
+    for (int a_itr = 0; a_itr < a_count; a_itr++) {
+        int a_item;
+        std::cin >> a_item;
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
-	maxheap.PrintHeap();
+        a[a_itr] = a_item;
+    }
 
-	maxheap.Insert(40);
-	maxheap.Insert(14);
-	maxheap.Insert(25);
+    std::vector<double> result = runningMedian(a);
 
-	maxheap.PrintHeap();
+    for (int result_itr = 0; result_itr < result.size(); result_itr++) {
+        fout << result[result_itr];
 
-	std::cout << "top: " << maxheap.Top() << std::endl;
+        if (result_itr != result.size() - 1) {
+            fout << "\n";
+        }
+    }
 
-	maxheap.Pop();
+    fout << "\n";
 
-	maxheap.PrintHeap();
+    fout.close();
 
-	return 0;
+    return 0;
 }

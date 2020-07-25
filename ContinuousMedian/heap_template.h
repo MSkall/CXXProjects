@@ -71,6 +71,24 @@ protected: // accessible in the class that defines them and in classes that inhe
 	std::vector<T> A;
 };
 
+template <class T>
+void Heap<T>::Swap(int child, int parent) {
+	T temp;
+	temp = A[child];
+	A[child] = A[parent];
+	A[parent] = temp;
+}
+
+template <class T>
+void Heap<T>::PrintHeap()
+{
+	for(int i = 0; i < GetSize(); i++)
+	{
+		std::cout << Heap<T>::A[i] << " ";
+	}
+	std::cout << std::endl;
+}
+
 // MIN-MAX HEAP Implementation
 // https://www.techiedelight.com/min-heap-max-heap-implementation-c/
 template <class T>
@@ -85,14 +103,6 @@ private:
 	void heapify_down(int i); // node i smaller than its children = violation
 	void heapify_up(int i); // node i is larger than its parent = violation
 };
-
-template <class T>
-void Heap<T>::Swap(int child, int parent) {
-	T temp;
-	temp = A[child];
-	A[child] = A[parent];
-	A[parent] = temp;
-}
 
 template <class T>
 int MaxHeap<T>::GetSize()
@@ -115,11 +125,11 @@ void MaxHeap<T>::heapify_down(int i)
 
 	// compare node i with it's child, if its lower, needs to swap
 	// set largest to now be either left or right child
-	if(Heap<T>::A[left] > Heap<T>::A[i])
+	if(left < GetSize() && Heap<T>::A[left] > Heap<T>::A[i])
 	{
 		curr_largest = left;
 	}
-	if(Heap<T>::A[right] > Heap<T>::A[i])
+	if(right < GetSize() && Heap<T>::A[right] > Heap<T>::A[curr_largest])
 	{
 		curr_largest = right;
 	}
@@ -189,11 +199,100 @@ int MaxHeap<T>::Top() {
 }
 
 template <class T>
-void Heap<T>::PrintHeap()
+class MinHeap : public Heap<T> {
+public:
+	int GetSize();
+
+	void Insert(int i);
+	void Pop();
+	int Top();
+private:
+
+	void heapify_down(int i);
+	void heapify_up(int i);
+};
+
+template <class T>
+int MinHeap<T>::GetSize()
 {
-	for(int i = 0; i < GetSize(); i++)
+	return Heap<T>::A.size();
+}
+
+template <class T>
+void MinHeap<T>::heapify_down(int i)
+{
+
+	int left = Heap<T>::GetLeftChild(i);
+	int right = Heap<T>::GetRightChild(i);
+
+	int curr_smallest = i;
+
+	if(left < GetSize() && Heap<T>::A[left] < Heap<T>::A[i])
 	{
-		std::cout << Heap<T>::A[i] << " ";
+		curr_smallest = left;
 	}
-	std::cout << std::endl;
+	if(right < GetSize() && Heap<T>::A[right] < Heap<T>::A[curr_smallest])
+	{
+		curr_smallest = right;
+	}
+
+	if(curr_smallest != i) {
+		Heap<T>::Swap(curr_smallest, i);
+		heapify_down(curr_smallest);
+	}
+}
+
+// move the node up in the heap if we find it is smaller than the parent
+template <class T>
+void MinHeap<T>::heapify_up(int i)
+{
+	int parent = Heap<T>::GetParent(i);
+
+	if(Heap<T>::A[i] < Heap<T>::A[parent])
+	{
+		Heap<T>::Swap(i, parent);
+		heapify_up(parent);
+	}
+}
+
+template <class T>
+void MinHeap<T>::Insert(int i)
+{
+	Heap<T>::A.push_back(i);
+
+	int index = GetSize() - 1;
+	heapify_up(index);
+}
+
+template <class T>
+void MinHeap<T>::Pop() {
+	try {
+		if (GetSize() == 0)
+			throw std::out_of_range("Vector<X>::at() : "
+					"index is out of range(Heap underflow)");
+
+		Heap<T>::A[0] = Heap<T>::A.back();
+		Heap<T>::A.pop_back();
+
+		heapify_down(0);
+	}
+	catch (const std::out_of_range& oor) {
+		std::cout << "\n" << oor.what();
+	}
+}
+
+template <class T>
+int MinHeap<T>::Top() {
+	try {
+		if (GetSize() == 0)
+			throw std::out_of_range("Vector<X>::at() : "
+					"index is out of range(Heap underflow)");
+
+		return Heap<T>::A[0];
+	}
+	catch (const std::out_of_range& oor) {
+		std::cout << "\n" << oor.what();
+	}
+
+	return -1;
 }

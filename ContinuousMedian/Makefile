@@ -5,7 +5,7 @@ CC = g++
 CFLAGS = -c -Wall
 CFLAGG = -Wall -g
 
-all:
+all: median
 
 #g++ -std=c++11 -o median continousmedian.cpp
 median: continousmedian.o
@@ -18,12 +18,6 @@ flights: flights_available.o
 	$(CC) flights_available.o -o flights
 flights_available.o: flights_available.cpp
 	$(CC) $(CXXFLAGS) $(CFLAGS) $(QMAKE_CXXFLAGS) flights_available.cpp
-
-#g++ -std=c++11 -o notrepeat firstNonRepeatingCharacter.cpp
-notrepeat: firstNonRepeatingCharacter.o
-	$(CC) firstNonRepeatingCharacter.o -o notrepeat
-firstNonRepeatingCharacter.o: firstNonRepeatingCharacter.cpp
-	$(CC) $(CXXFLAGS) $(CFLAGS) $(QMAKE_CXXFLAGS) firstNonRepeatingCharacter.cpp
 
 clean:
 	rm -rf *o flights median notrepeat
