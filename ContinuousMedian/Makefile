@@ -9,9 +9,9 @@ all: median
 
 #g++ -std=c++11 -o median continousmedian.cpp
 median: continousmedian.o
-	$(CC) $(CFLAGG) -o median continousmedian.o
+	$(CC) $(CXXFLAGS) $(CFLAGG) -o median continousmedian.o
 continousmedian.o: continousmedian.cpp heap_template.h
-	$(CC) $(CFLAGG) -c continousmedian.cpp
+	$(CC) $(CXXFLAGS) $(CFLAGG) -c continousmedian.cpp
 
 # g++ -std=c++11 -o airport flights_available.cpp 
 flights: flights_available.o

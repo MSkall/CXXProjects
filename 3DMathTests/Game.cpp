@@ -1,6 +1,9 @@
 #include <iostream>
 #include "Game.h"
 
+// try and include SDL
+// $ g++ -o executable-name source.cpp $(sdl2-config --libs)
+
 bool Game::Initilaize()
 {
 	isRunning = true;
