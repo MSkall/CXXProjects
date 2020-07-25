@@ -29,29 +29,30 @@ int main(){
     std::cout << "maxheap: "; 
     maxheap.PrintHeap();
 
+    std::cout << std::endl;
     std::cout << "MinHeap test: " << std::endl;
-    // MinHeap<int> minheap;
+    MinHeap<int> minheap;
 
-    // minheap.Insert(5);
-    // minheap.Insert(10);
-    // minheap.Insert(2);
+    minheap.Insert(5);
+    minheap.Insert(10);
+    minheap.Insert(2);
 
-    // std::cout << "minheap: ";
-    // minheap.PrintHeap();
+    std::cout << "minheap: ";
+    minheap.PrintHeap();
 
-    // minheap.Insert(100);
-    // minheap.Insert(-1);
-    // minheap.Insert(-6);
+    minheap.Insert(100);
+    minheap.Insert(-1);
+    minheap.Insert(-6);
 
-    // std::cout << "minheap: ";
-    // minheap.PrintHeap();
-    // std::cout << "top: " << minheap.Top() << std::endl;
+    std::cout << "minheap: ";
+    minheap.PrintHeap();
+    std::cout << "top: " << minheap.Top() << std::endl;
 
-    // minheap.Pop();
+    minheap.Pop();
     
-    // std::cout << "popping root" << std::endl;
-    // std::cout << "minheap: ";
-    // minheap.PrintHeap();
+    std::cout << "popping root" << std::endl;
+    std::cout << "minheap: ";
+    minheap.PrintHeap();
 
     return 0;
 }
