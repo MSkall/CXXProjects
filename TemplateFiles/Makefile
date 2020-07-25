@@ -17,4 +17,4 @@ testheap.o: testheap.cpp heap_template.h
 	$(CC) $(CXXFLAGS) $(CFLAGS) $(QMAKE_CXXFLAGS) testheap.cpp
 
 clean:
-	rm -rf *o linked list heap
+	rm -rf *o linkedlist heap
