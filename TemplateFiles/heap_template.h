@@ -45,6 +45,7 @@ class Heap {
 public:
 	void Swap(int child, int parent);
 	void PrintHeap();
+	virtual ~Heap() = 0; // use pure virtual for abstract class
 
 	// want pure virtual because we're creating min and max heaps
 	virtual void Insert(int i) = 0;
@@ -70,6 +71,10 @@ protected: // accessible in the class that defines them and in classes that inhe
 
 	std::vector<T> A;
 };
+
+// MUST provide definition for pure virtual
+template <class T>
+Heap<T>::~Heap<T>() {}
 
 template <class T>
 void Heap<T>::Swap(int child, int parent) {
@@ -98,6 +103,7 @@ public:
 	void Insert(int i);
 	void Pop();
 	int Top();
+	~MaxHeap() {}
 
 private:
 	void heapify_down(int i); // node i smaller than its children = violation
@@ -206,6 +212,8 @@ public:
 	void Insert(int i);
 	void Pop();
 	int Top();
+	~MinHeap() {}
+
 private:
 
 	void heapify_down(int i);

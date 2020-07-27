@@ -7,74 +7,96 @@
 #include "heap_template.h"
 
 // MAXHEAP AND MINHEAP VERSION - not working
-// void addNumber(MaxHeap<int> lowers, MinHeap<int> highers, int number)
-// {
-//     if(lowers.GetSize() == 0 || number < lowers.Top())
-//     {
-//         lowers.Insert(number);
-//     } 
-//     else
-//     {
-//         highers.Insert(number);
-//     }
-// }
+double addNumber(Heap<int>& lowers, Heap<int>& highers, int number, double& m)
+{
+    int lsize = lowers.GetSize();
+    int hsize = highers.GetSize();
 
-// void rebalance(MaxHeap<int> lowers, MinHeap<int> highers)
-// {
-//     MaxHeap<int> biggerHeap;
-//     MinHeap<int> smallerHeap;
-//     if(lowers.GetSize() > highers.GetSize())
-//     {
-//         // lowers is the biggerHeap
-//         // if the root of lowers 
-//         biggerHeap = lowers;
-//         smallerHeap = highers;
-//     }
-//     else
-//     {
-//         biggerHeap = highers;
-//         smallerHeap = lowers;
-//     }
+    // if they are the same size
+    // just decide which side of the median number will be added to
+    if(lsize == hsize)
+    {
+        if(number < m)
+        {
+            lowers.Insert(number);
+            return lowers.Top();
+        }
+        else
+        {
+            highers.Insert(number);
+            return highers.Top();
+        }
+    }
 
-//     // MaxHeap<int> biggerHeap = lowers.GetSize() > highers.GetSize() ? lowers : highers;
-//     // MinHeap<int> smallerHeap = lowers.GetSize() > highers.GetSize() ? highers : lowers;
+    // rebalance
+    // if they are different sizes, the median is the average of tops of both
+    // if lowers is bigger...
+    if(lsize > hsize)
+    {
+        // need to add number to lowers
+        // extract top of lowers and add to highers
+        if(number < m)
+        {
+            if(lowers.GetSize() != 0)
+            {
+                highers.Insert(lowers.Top());
+                lowers.Pop();
+            }
+            lowers.Insert(number);
+        }
+        else
+        {
+            // adding to biggers
+            highers.Insert(number);
+        }
 
-//     if(biggerHeap.GetSize() - smallerHeap.GetSize() >= 2)
-//     {
-//         smallerHeap.Insert(biggerHeap.Top());
-//         biggerHeap.Pop();
-//     }
+        return (double(lowers.Top() + highers.Top())) / 2;
+    }
+    // if highers is bigger
+    else
+    {
+        // need to add to lowers
+        if(number < m)
+        {
+            lowers.Insert(number);
+        }
+        // need to add to highers
+        else
+        {
+            if(highers.GetSize() != 0)
+            {
+                lowers.Insert(highers.Top());
+                highers.Pop();
+            }
+            highers.Insert(number);
+        }
+        return (double(lowers.Top() + highers.Top())) / 2;
+    }
+}
 
-// }
+std::vector<double> continuousMedian(std::vector<int> arr)
+{  
 
-// double getMedian(MaxHeap<int> lowers, MinHeap<int> highers)
-// {
-//     MaxHeap<int> biggerHeap;
-//     MinHeap<int> smallerHeap;
-//     if(lowers.GetSize() > highers.GetSize())
-//     {
-//         // lowers is the biggerHeap
-//         // if the root of lowers 
-//         biggerHeap = lowers;
-//         smallerHeap = highers;
-//     }
-//     else
-//     {
-//         biggerHeap = highers;
-//         smallerHeap = lowers;
-//     }
-//     // MaxHeap<int> biggerHeap = lowers.GetSize() > highers.GetSize() ? lowers : highers;
-//     // MinHeap<int> smallerHeap = lowers.GetSize() > highers.GetSize() ? highers : lowers;
+    std::vector<double> medians;
 
-//     if(biggerHeap.GetSize() == smallerHeap.GetSize())
-//     {
-//         return ((double) biggerHeap.Top() + smallerHeap.Top() ) / 2;
-//     }
-//     else
-//     {
-//         return biggerHeap.Top();
-//     }
-// }
+    if(arr.size() == 0) return medians;
+
+    Heap<int>* lowers = new MaxHeap<int>();
+    Heap<int>* highers = new MinHeap<int>();
+
+    double median = arr[0];
+    for(int i = 0; i < arr.size(); i++)
+    {
+        int number = arr[i];
+        median = addNumber(*lowers, *highers, number, median);
+        medians.push_back(median);
+    }
+
+    delete lowers;
+    delete highers;
+
+    return medians;
+}
 
 class cmp
 {
@@ -160,11 +182,22 @@ int main()
 {
     std::vector<int> arr = {1, 2, 10, 5, 28, 7};
 
+    std::cout << "PriorityQueue Version:" << std::endl;
     std::vector<double> medians = runningMedian(arr);
 
     for(int i = 0; i < medians.size(); i++)
     {
         std::cout << medians[i] << " ";
+    }
+    std::cout << std::endl;
+    std::cout << std::endl;
+
+    std::cout << "Heap Version:" << std::endl;
+    std::vector<double> medians2 = continuousMedian(arr);
+
+    for(int i = 0; i < medians2.size(); i++)
+    {
+        std::cout << medians2[i] << " ";
     }
     std::cout << std::endl;
 
