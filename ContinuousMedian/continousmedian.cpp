@@ -6,7 +6,7 @@
 #include <queue>
 #include "heap_template.h"
 
-// MAXHEAP AND MINHEAP VERSION - not working
+// MAXHEAP AND MINHEAP VERSION
 double addNumber(Heap<int>& lowers, Heap<int>& highers, int number, double& m)
 {
     int lsize = lowers.GetSize();
@@ -107,8 +107,13 @@ class cmp
         }
 };
  
+// max heap of lower part of numbers
+// min heap of upper part of numbers 
+
+// for priority queue, first element is always the greatest
+// so to make a min, we need to use comparator -> or std::greater<T>
 std::priority_queue<int,std::vector<int> > lowers;
-std::priority_queue<int,std::vector<int>,cmp> highers;
+std::priority_queue<int,std::vector<int>,cmp> highers; // cause the smallest element to appear as the top()
  
 double getMedian(int number, double &m)
 {
@@ -162,6 +167,16 @@ double getMedian(int number, double &m)
         }
         m = (double)((double)(highers.top() + lowers.top())/2);
     }
+
+    // if(lowers.size() != 0)
+    // {
+    //     std::cout << "lowers.top(): " << lowers.top() << std::endl;
+    // }
+    // if(highers.size() != 0)
+    // {
+    //     std::cout << "highers.top(): " << highers.top() << std::endl;
+    // }
+
     return m;
 }
 

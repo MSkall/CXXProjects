@@ -67,6 +67,8 @@ public:
 	virtual ~Heap() { }
 
 	// want pure virtual because we're creating min and max heaps
+	// want to create abstract classes (classes that can't be instantiated)
+	// intended to be used as a base class
 	virtual void Insert(int i) = 0;
 	virtual void Pop() = 0;
     virtual int Top() = 0;
@@ -100,7 +102,7 @@ protected: // accessible in the class that defines them and in classes that inhe
 
 	void insert(int i)
 	{
-		Heap<T>::A.push_back(i);
+		A.push_back(i);
 
 		// need to call heapify_up to satisfy heap property
 		// to do that, need index
