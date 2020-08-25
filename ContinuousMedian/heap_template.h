@@ -71,8 +71,8 @@ public:
 	// intended to be used as a base class
 	virtual void Insert(int i) = 0;
 	virtual void Pop() = 0;
-    virtual int Top() = 0;
-    virtual int GetSize() = 0; 
+	virtual int Top() = 0;
+	virtual int GetSize() = 0; 
 
 protected: // accessible in the class that defines them and in classes that inherit from that class
 	std::vector<T> A;
